@@ -36,7 +36,7 @@ if(data.session.url){
         <div className="flex items-center justify-between ">
           <p className="text__para mt-0 font-semibold ">Appointment Charge</p>
           <span className="text-[16px] leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold ">
-            ₹{ticketPrice}
+            ${ticketPrice}
           </span>
         </div>
 

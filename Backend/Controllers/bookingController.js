@@ -8,6 +8,10 @@ const getCheckoutSession = async (req, res) => {
     const doctor = await Doctor.findById(req.params.doctorId);
     const user = await User.findById(req.userId);
 
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -19,8 +23,8 @@ const getCheckoutSession = async (req, res) => {
       line_items: [
         {
           price_data: {
-            currency: "inr",
-            unit_amount: doctor.ticketPrice * 100,
+            currency: "usd",
+            unit_amount: doctor.ticketPrice,
             product_data: {
               name: doctor.name,
               description: doctor.bio,
@@ -49,4 +53,3 @@ const getCheckoutSession = async (req, res) => {
       .json({ success: false, message: "Error creating checkout session" });
   }
 };
-module.exports = getCheckoutSession;
